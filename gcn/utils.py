@@ -111,11 +111,11 @@ def sparse_to_tuple(sparse_mx):
 
 def preprocess_features(features):
     """Row-normalize feature matrix and convert to tuple representation"""
-    rowsum = np.array(features.sum(1))
-    r_inv = np.power(rowsum, -1).flatten()
+    rowsum = np.array(features.sum(1))  # 每个节点的特征数量 n
+    r_inv = np.power(rowsum, -1).flatten()  # 特征数量的倒数 1/n
     r_inv[np.isinf(r_inv)] = 0.
-    r_mat_inv = sp.diags(r_inv)
-    features = r_mat_inv.dot(features)
+    r_mat_inv = sp.diags(r_inv)  # 特征数量的倒数的对角阵:
+    features = r_mat_inv.dot(features)  # 是否可以解释为：特征及特征的权重？
     return sparse_to_tuple(features)
 
 
@@ -131,7 +131,7 @@ def normalize_adj(adj):
 
 def preprocess_adj(adj):
     """Preprocessing of adjacency matrix for simple GCN model and conversion to tuple representation."""
-    adj_normalized = normalize_adj(adj + sp.eye(adj.shape[0]))
+    adj_normalized = normalize_adj(adj + sp.eye(adj.shape[0]))  # A + I, 及权重
     return sparse_to_tuple(adj_normalized)
 
 
